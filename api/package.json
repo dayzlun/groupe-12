@@ -1,0 +1,25 @@
+{
+  "name": "parla-api",
+  "version": "1.0.0",
+  "description": "API for the project PARLA",
+  "main": "index.js",
+  "repository": "https://github.com/sigl-arla/groupe-12",
+  "scripts": {
+    "build-js": "tsc",
+    "start": "npm run build-js && node src/api.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/cors": "^2.8.6",
+    "@types/express": "4.17.1",
+    "@types/jsonschema": "^1.1.1",
+    "typescript": "3.6.4"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "4.17.1",
+    "jsonschema": "^1.2.4"
+  }
+}
