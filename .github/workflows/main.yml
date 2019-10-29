@@ -1,0 +1,30 @@
+name: Parla CD
+
+on:
+  push:
+    branches: 
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - name: Build checkin API
+      run: |
+       docker build -t docker.pkg.github.com/sigl-arla/groupe-12/parla:v1 .
+       docker login docker.pkg.github.com -u ${{ secrets.DOCKER_USER }} -p ${{ secrets.DOCKER_TOKEN }}
+       docker push docker.pkg.github.com/sigl-arla/groupe-12/parla:v1
+    - name: Deploy checkin API
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.SSH_HOST }}
+        username: ${{ secrets.SSH_USER }}
+        password: ${{ secrets.SSH_PASSWORD }}
+        script: |
+          docker login docker.pkg.github.com -u ${{ secrets.DOCKER_USER }} -p ${{ secrets.DOCKER_TOKEN }}
+          docker stop parla || true
+          docker rm parla || true
+          docker pull docker.pkg.github.com/sigl-arla/groupe-12/parla:v1
+          # Groupe SIGL: use the following line instead
+          docker run -d -p 80:80 --name parla docker.pkg.github.com/sigl-arla/groupe-12/parla:v1
