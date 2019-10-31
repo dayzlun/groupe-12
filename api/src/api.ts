@@ -1,7 +1,8 @@
 import {default as express, Request, Response} from 'express';
 import cors from 'cors';
 import {json} from 'body-parser';
-import {VolatileDB} from './db';
+import * as jsonschema from 'jsonschema';
+import {VolatileDB, HikingJSONSchema} from './db';
 
 // Configure the server with port
 const app = express();
@@ -22,13 +23,18 @@ app.get('/', (_: Request, res: Response) => {
 
 // Add a new hiking to the volatile database
 app.post('/hiking', (req: Request, res: Response) => {
-  if (req.body && req.body.name) {
-    const {name} = req.body;
-    VolatileDB.saveHiking({name});
-    res.send({status: 'hiking saved!'});
+  if (req.body && typeof(req.body) === 'object') {
+    const {valid, errors} = jsonschema.validate(req.body, HikingJSONSchema);
+    if (valid) {
+      VolatileDB.saveHiking(req.body);
+      res.send({status: 'hiking saved!'});
+    } else {
+      res.status(400);
+      res.send({errors})
+    }
   } else {
     res.status(400);
-    res.send({status: 'missing parameters or wrong parameters. Try again!'});
+    res.send({error: "wrong payload format. Need application/json."});
   }
 });
 
