@@ -1,13 +1,14 @@
 // JSON Schema that validates Hiking JSON payloads
-// see: https://github.com/tdegrunt/jsonschema 
-// for some schema examples. 
+// see: https://github.com/tdegrunt/jsonschema
+// for some schema examples.
 export const HikingJSONSchema = {
-  type: "object",
+  type: 'object',
   properties: {
-    "name": {type: "string"}
+    name: {type: 'string'}
   },
-  required: ["name"]
-}
+  required: ['name'],
+  additionalProperties: false
+};
 
 export type Hiking = {
   // TODO DEFINE ME!!!!
