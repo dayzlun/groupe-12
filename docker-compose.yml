@@ -1,0 +1,20 @@
+version: '3'
+
+services:
+  parla-api:
+    image: "docker.pkg.github.com/sigl-arla/${ARLA_GROUP}/parla-api:v1" 
+    container_name: parla-api
+    network:
+      - traefik_network
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=traefik_network"
+      - "traefik.frontend.rule=Host:parla-api.${\"ARLA_GROUP\"}.arla-sigl.fr"
+      - "traefik.frontend.port=3000"
+    expose:
+      - 3000
+ 
+networks:
+  traefik_network:
+    external:
+      name: traefik_network   
