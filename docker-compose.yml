@@ -4,17 +4,22 @@ services:
   parla-api:
     image: "${PARLA_API_IMAGE}"
     container_name: parla-api
-    networks:
-      - web
     labels:
       - "traefik.enable=true"
-      - "traefik.docker.network=traefik_network"
-      - "traefik.frontend.rule=Host:${PARLA_API_ENDPOINT}"
+      - "traefik.docker.network=web"
+      - "traefik.frontend.rule=Host:parla-api.${ARLA_GROUP_ENDPOINT}"
       - "traefik.frontend.port=3000"
     expose:
       - 3000
 
-networks:
-  web:
-    external:
-      name: web
+  parla-react:
+    image: "${PARLA_REACT_IMAGE}"
+    container_name: parla-react
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=web"
+      - "traefik.frontend.rule=Host:parla.${ARLA_GROUP_ENDPOINT}"
+      - "traefik.frontend.port=80"
+    expose:
+      - 80
+

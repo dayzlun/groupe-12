@@ -1,0 +1,18 @@
+/* Your CSS style can be put here */
+body {
+    background-color: whitesmoke;
+    color: dimgray;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+/* Flexbox guide: https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Flexible_Box_Layout/Basic_Concepts_of_Flexbox*/
+.hikes {
+    display: flex;
+    flex-grow: 1;
+    flex-flow: column wrap;
+    align-items: center;
+}
+
+.hikes > h1 {
+    border-bottom: 1px solid dimgray;
+}
