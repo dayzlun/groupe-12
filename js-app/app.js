@@ -19,7 +19,7 @@ function reload_hikes(hikes) {
 async function loadHikes() {
   let hikes = [];
   try {
-    const response = await fetch(HIKING_API_ENDPOINT + '/hiking/all', {
+    const response = await fetch(HIKING_API_ENDPOINT + '/v1/hike/all', {
       headers: {'Content-Type': 'application/json'}
     });
     hikes = await response.json();

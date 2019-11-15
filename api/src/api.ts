@@ -22,7 +22,7 @@ app.get('/', (_: Request, res: Response) => {
 });
 
 // Add a new hiking to the volatile database
-app.post('/hiking', (req: Request, res: Response) => {
+app.post('/v1/hike', (req: Request, res: Response) => {
   if (req.body && typeof(req.body) === 'object') {
     const {valid, errors} = jsonschema.validate(req.body, HikingJSONSchema);
     if (valid) {
@@ -41,7 +41,7 @@ app.post('/hiking', (req: Request, res: Response) => {
 /**
  * Get all hikings from our volatile database
  */
-app.get('/hiking/all', (_: Request, res: Response) => {
+app.get('/v1/hike/all', (_: Request, res: Response) => {
   res.send(VolatileDB.getAllHikings());
 });
 
