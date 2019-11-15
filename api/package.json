@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "API for the project PARLA",
   "main": "index.js",
-  "repository": "https://github.com/sigl-arla/groupe-12",
+  "repository": "",
   "scripts": {
     "build-js": "tsc",
     "start": "npm run build-js && node src/api.js"
