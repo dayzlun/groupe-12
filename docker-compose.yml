@@ -4,6 +4,8 @@ services:
   parla-api:
     image: "${PARLA_API_IMAGE}"
     container_name: parla-api
+    networks:
+      - web
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=web"
@@ -15,6 +17,8 @@ services:
   parla-react:
     image: "${PARLA_REACT_IMAGE}"
     container_name: parla-react
+    networks:
+      - web
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=web"
@@ -23,3 +27,7 @@ services:
     expose:
       - 80
 
+networks:
+  web:
+    external:
+      name: web
