@@ -18,6 +18,7 @@ jobs:
        docker push $PARLA_API_IMAGE
     - name: Build parla react app
       run: |
+       source variables.env
        docker build -t $PARLA_REACT_IMAGE react-app/
        docker login docker.pkg.github.com -u ${{ secrets.DOCKER_USER }} -p ${{ secrets.DOCKER_TOKEN }}
        docker push $PARLA_REACT_IMAGE
@@ -31,7 +32,7 @@ jobs:
       with:
         host: ${{ secrets.SSH_HOST }}
         username: ${{ secrets.SSH_USER }}
-        password: ${{ secrets.SSH_KEY }}
+        key: ${{ secrets.SSH_KEY }}
         source: "docker-compose.yml,variables.env"
         target: "parla/"
     - name: Deploy via docker-compose
