@@ -1,37 +1,61 @@
-import * as React from 'react';
-import {Hike} from '../models/hike';
+import {applyMiddleware, createStore} from 'redux';
+import {composeWithDevTools} from 'redux-devtools-extension';
 import {AnyActions} from '../actions';
+import {AreaState, initialAreaState} from '../area/reducer';
+import {CenterState, initialCenterState} from '../center/reducer';
+import {HikerGroupState, initialHikerGroupState} from '../find-a-group/reducer';
+import {HikeState, initialHikeState} from '../hike/reducer';
+import {initialLoginState, LoginState} from '../login/reducer';
+import {epics} from './epics';
+import {reducers} from './reducers';
+import {ForecastState, initialForecastState} from '../forecast/reducer';
+import {CommentState, initialCommentState} from '../comment/reducer';
+import {initialShopState, ShopState} from '../shop/reducer';
+import {RecommendationState, initialRecommendationState} from '../recommendation/reducer';
+
+export const enum LoginStep {
+  userSignedOut = 'userSignedOut',
+  credentialsSubmitted = 'credentialsSubmitted',
+  validatingCredentials = 'validatingCredentials',
+  failedSignIn = 'failedSignIn',
+  userSignedIn = 'userSignedIn'
+}
+
+export type Credentials = {
+  username: string;
+  password: string;
+};
 
 export type AppState = {
-  hikes: Hike[];
+  hike: HikeState;
+  login: LoginState;
+  center: CenterState;
+  area: AreaState;
+  hikerGroup: HikerGroupState;
+  forecast: ForecastState;
+  comment: CommentState;
+  shop: ShopState;
+  recommendation: RecommendationState;
 };
 
 export const initialState: AppState = {
-  hikes: []
+  login: initialLoginState,
+  hike: initialHikeState,
+  center: initialCenterState,
+  area: initialAreaState,
+  hikerGroup: initialHikerGroupState,
+  forecast: initialForecastState,
+  comment: initialCommentState,
+  shop: initialShopState,
+  recommendation: initialRecommendationState
 };
 
-/**
- * Initialize a new application context, with the given initial state and reducer
- * @param reducer function that determines what changes are applied for which actions
- * @param initialState the initial state of the app; when the user just arrived on our app.
- */
-export const createStore = (reducer: React.Reducer<AppState, AnyActions>, initialState: AppState) => {
-  
-  const AppContext = React.createContext<{state: AppState; dispatch: React.Dispatch<AnyActions>}>({
-    state: initialState,
-    dispatch: () => {}
-  });
-
-  const StateProvider: React.FC = ({children}) => {
-    const [state, dispatch] = React.useReducer(reducer, initialState);
-
-    return <AppContext.Provider value={{state, dispatch}}>{children}</AppContext.Provider>;
-  };
-
-  const useAppState = (): [AppState, (action: AnyActions) => void] => {
-    const {state, dispatch} = React.useContext(AppContext);
-    return [state, dispatch];
-  };
-
-  return {StateProvider, useAppState};
+export const initStore = (middleware: any) => {
+  const store = createStore<AppState, AnyActions, {}, {}>(
+    reducers,
+    initialState,
+    composeWithDevTools(applyMiddleware(middleware))
+  );
+  middleware.run(epics);
+  return store;
 };

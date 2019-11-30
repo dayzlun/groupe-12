@@ -1,18 +1,26 @@
+import {ThemeProvider} from '@material-ui/core/styles';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import {Hikes} from './components/hikes';
-import {createStore, initialState} from './state/store';
-import {reducer} from './state/reducer';
+import {Provider} from 'react-redux';
+import {createEpicMiddleware} from 'redux-observable';
+import {Authenticated} from './authenticated/authenticated';
+import {Center} from './center/center';
+import {parlaTheme} from './common-style';
+import {initStore} from './state/store';
 
-export const {StateProvider, useAppState} = createStore(reducer, initialState);
-
+const epicMiddleware = createEpicMiddleware();
+export const store = initStore(epicMiddleware);
 /**
  * Our Application main DOM
  */
 const App: React.FC = () => (
-  <StateProvider>
-    <Hikes />
-  </StateProvider>
+  <Provider store={store}>
+    <ThemeProvider theme={parlaTheme}>
+      <Authenticated>
+        <Center />
+      </Authenticated>
+    </ThemeProvider>
+  </Provider>
 );
 
 /**
