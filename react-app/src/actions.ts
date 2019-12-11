@@ -1,4 +1,12 @@
-import {Hike} from './models/hike';
+import {HikeActions} from './hike/actions';
+import {LoginActions} from './login/actions';
+import {AreaActions} from './area/actions';
+import {CenterActions} from './center/actions';
+import {ForecastActions} from './forecast/actions';
+import {CommentActions} from './comment/actions';
+import {HikerGroupActions} from './find-a-group/actions';
+import {ShopActions} from './shop/actions';
+import {RecommendationActions} from './recommendation/actions';
 /**
  * This is where you should define your actions:
  *  - its name (this will be use in the `case` clause of the reducer)
@@ -7,27 +15,13 @@ import {Hike} from './models/hike';
  *  You should define those 3 elements to create a new action
  */
 
-
-type Action = {
-    type: string;
-}
-
-export const LOAD_HIKES_ACTION = 'hikes#loadHikes';
-export type LoadHikesAction = Action & {}
-export const loadHikes = (): LoadHikesAction => ({
-  type: LOAD_HIKES_ACTION
-});
-
-
-export const HIKES_LOADED_ACTION = 'hikes#hikesLoaded';
-export type HikesLoadedAction = Action & {
-  hikes: Hike[];
-}
-export const hikesLoaded = (hikes: Hike[]): HikesLoadedAction => ({
-  type: HIKES_LOADED_ACTION,
-  hikes
-});
-
-export type AnyActions = 
-    | LoadHikesAction 
-    | HikesLoadedAction;
+export type AnyActions =
+  | LoginActions
+  | HikeActions
+  | AreaActions
+  | CenterActions
+  | HikerGroupActions
+  | ForecastActions
+  | CommentActions
+  | ShopActions
+  | RecommendationActions;

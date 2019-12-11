@@ -3,5 +3,13 @@
  * return from your hike API
  */
 export type Hike = {
-    name: string;
-}
+  hikeid: string;
+  name: string;
+  elevationGain: string;
+  coord: HikeCoordinates;
+};
+
+export type HikeCoordinates = {
+  lat: number;
+  lon: number;
+};
