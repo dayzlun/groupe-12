@@ -1,4 +1,4 @@
-name: Parla CD
+name: Parla React App
 
 on:
   push:
@@ -10,12 +10,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
-    - name: Build hiking API
-      run: |
-       source variables.env
-       docker build -t $PARLA_API_IMAGE api/
-       docker login docker.pkg.github.com -u ${{ secrets.DOCKER_USER }} -p ${{ secrets.DOCKER_TOKEN }}
-       docker push $PARLA_API_IMAGE
     - name: Build parla react app
       run: |
        source variables.env
