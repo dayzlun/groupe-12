@@ -10,6 +10,7 @@ import {forecastReducer} from '../forecast/reducer';
 import {commentReducer} from '../comment/reducer';
 import {shopReducer} from '../shop/reducer';
 import { recommendationReducer } from '../recommendation/reducer';
+import { poiReducer } from '../poi/reducer';
 
 /**
  * Apply changes to the application state, based on which
@@ -32,7 +33,8 @@ export const reducers: Reducer<AppState, AnyActions> = (
     forecast: forecastReducer,
     comment: commentReducer,
     shop: shopReducer,
-    recommendation: recommendationReducer
+    recommendation: recommendationReducer,
+    poi: poiReducer
   });
   return appReducers(appState, action);
 };

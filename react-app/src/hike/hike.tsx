@@ -69,7 +69,6 @@ export const HikePaper: React.FC<HikePaperProps> = ({hike, detailsView, comments
         <Grid item xs={4} />
         <Grid item xs={4}>
           <Button
-            variant="contained"
             color="secondary"
             onClick={() => dispatch(switchToHikeDetails(hike, detailsView))}
           >

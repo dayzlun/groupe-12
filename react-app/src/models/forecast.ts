@@ -1,4 +1,4 @@
-import { HikeCoordinates } from "./hike";
+import { LocationCoordinates } from "./hike";
 
 export type WeatherIcon =
   | '01d'
@@ -36,7 +36,7 @@ export type ThreeHourForecast = {
 
 export type City = {
   name: string;
-  coord: HikeCoordinates;
+  coord: LocationCoordinates;
 };
 
 export type WeatherForecast = {
