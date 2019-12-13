@@ -9,13 +9,8 @@ import {ShopActions} from './shop/actions';
 import {RecommendationActions} from './recommendation/actions';
 import {POIActions} from './poi/actions';
 import {StatisticsActions} from './statistics/actions';
-/**
- * This is where you should define your actions:
- *  - its name (this will be use in the `case` clause of the reducer)
- *  - its type (if we expect to have extra information)
- *  - the function called by `displatch`
- *  You should define those 3 elements to create a new action
- */
+import {PreferencesActions} from './preferences/actions';
+import {RatingActions} from './rating/actions';
 
 export type AnyActions =
   | LoginActions
@@ -28,4 +23,6 @@ export type AnyActions =
   | ShopActions
   | RecommendationActions
   | POIActions
-  | StatisticsActions;
+  | StatisticsActions
+  | PreferencesActions
+  | RatingActions;

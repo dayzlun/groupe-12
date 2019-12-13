@@ -9,6 +9,8 @@ import {shopEpics} from '../shop/epics';
 import {recommendationEpics} from '../recommendation/epics';
 import {poiEpics} from '../poi/epics';
 import {statisticsEpics} from '../statistics/epics';
+import {preferencesEpics} from '../preferences/epics';
+import {ratingEpics} from '../rating/epics';
 
 export const epics = combineEpics(
   ...loginEpics,
@@ -20,5 +22,7 @@ export const epics = combineEpics(
   ...shopEpics,
   ...recommendationEpics,
   ...poiEpics,
-  ...statisticsEpics
+  ...statisticsEpics,
+  ...preferencesEpics,
+  ...ratingEpics
 );

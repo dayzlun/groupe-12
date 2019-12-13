@@ -12,6 +12,8 @@ import {shopReducer} from '../shop/reducer';
 import {recommendationReducer} from '../recommendation/reducer';
 import {poiReducer} from '../poi/reducer';
 import {statisticsReducer} from '../statistics/reducer';
+import {preferencesReducer} from '../preferences/reducer';
+import {ratingReducer} from '../rating/reducer';
 
 /**
  * Apply changes to the application state, based on which
@@ -36,7 +38,9 @@ export const reducers: Reducer<AppState, AnyActions> = (
     shop: shopReducer,
     recommendation: recommendationReducer,
     poi: poiReducer,
-    statistics: statisticsReducer
+    statistics: statisticsReducer,
+    preferences: preferencesReducer,
+    rating: ratingReducer
   });
   return appReducers(appState, action);
 };
