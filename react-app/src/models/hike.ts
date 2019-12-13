@@ -6,10 +6,10 @@ export type Hike = {
   hikeid: string;
   name: string;
   elevationGain: string;
-  coord: HikeCoordinates;
+  coord: LocationCoordinates;
 };
 
-export type HikeCoordinates = {
+export type LocationCoordinates = {
   lat: number;
   lon: number;
 };

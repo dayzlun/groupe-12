@@ -15,6 +15,7 @@ import {ThreeDayForecastTable} from '../forecast/forecast';
 import {useDispatch} from 'react-redux';
 import {switchView} from '../center/actions';
 import {CenterView} from '../center/reducer';
+import { PointsOfInterest } from '../poi/points-of-interest';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -28,7 +29,7 @@ export const HikeDetails: React.FC<{hike: Hike; backToView: CenterView;}> = ({hi
 
   return (
     <Container className={classes.container}>
-      <Grid container spacing={9}>
+      <Grid container spacing={3}>
         <Grid item xs={10}>
           <Typography variant="h4">{hike.name}</Typography>
         </Grid>
@@ -39,6 +40,9 @@ export const HikeDetails: React.FC<{hike: Hike; backToView: CenterView;}> = ({hi
         </Grid>
         <Grid item xs={12}>
           <ThreeDayForecastTable coordinates={hike.coord} />
+        </Grid>
+        <Grid item xs={12}>
+          <PointsOfInterest hikeid={hike.hikeid}/>
         </Grid>
       </Grid>
     </Container>

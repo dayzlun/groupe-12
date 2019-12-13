@@ -3,7 +3,8 @@ import {ListItem, List, ListItemIcon, ListItemText} from '@material-ui/core';
 import DirectionsWalk from '@material-ui/icons/DirectionsWalk';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import GroupIcon from '@material-ui/icons/Group';
-import AddHikeIcon from '@material-ui/icons/AddPhotoAlternate';
+
+import StatisticsIcon from '@material-ui/icons/Assessment';
 import RecommendationIcon from '@material-ui/icons/LocalOffer';
 import ShopIcon from '@material-ui/icons/ShoppingCart';
 import {useDispatch} from 'react-redux';
@@ -15,25 +16,25 @@ export const SecondaryMenuItems: React.FC = () => {
 
   return (
     <List>
-      <ListItem key='group-view' button onClick={() => dispatch(switchView(CenterView.findGroupView))}>
+      <ListItem button onClick={() => dispatch(switchView(CenterView.findGroupView))}>
         <ListItemIcon>
           <GroupIcon />
         </ListItemIcon>
         <ListItemText primary="Find a group" />
       </ListItem>
-      <ListItem key='add-hike-view' button onClick={() => dispatch(switchView(CenterView.addAHikeView))}>
+      <ListItem button onClick={() => dispatch(switchView(CenterView.statisticsView))}>
         <ListItemIcon>
-          <AddHikeIcon />
+          <StatisticsIcon />
         </ListItemIcon>
-        <ListItemText primary="Add a new hike" />
-      </ListItem>
-      <ListItem button key='recommendation-view' onClick={() => dispatch(switchView(CenterView.recommendationView))}>
+        <ListItemText primary="Your statistics" />
+      </ListItem>      
+      <ListItem button onClick={() => dispatch(switchView(CenterView.recommendationView))}>
         <ListItemIcon>
           <RecommendationIcon />
         </ListItemIcon>
         <ListItemText primary="Recommendations" />
       </ListItem>
-      <ListItem button key='shop-view' onClick={() => dispatch(switchView(CenterView.shopView))}>
+      <ListItem button onClick={() => dispatch(switchView(CenterView.shopView))}>
         <ListItemIcon>
           <ShopIcon />
         </ListItemIcon>

@@ -1,12 +1,12 @@
 import {Action} from 'redux';
 import {WeatherForecast} from '../models/forecast';
-import {HikeCoordinates} from '../models/hike';
+import {LocationCoordinates} from '../models/hike';
 
 export const LOAD_WEATHER_FORECAST = 'forecast#loadWeaherForecast';
 export type LoadWeatherForecast = Action & {
-  coordinates: HikeCoordinates;
+  coordinates: LocationCoordinates;
 };
-export const loadWeaherForecast = (coordinates: HikeCoordinates): LoadWeatherForecast => ({
+export const loadWeaherForecast = (coordinates: LocationCoordinates): LoadWeatherForecast => ({
   type: LOAD_WEATHER_FORECAST,
   coordinates
 });

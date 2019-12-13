@@ -7,6 +7,8 @@ import {CommentActions} from './comment/actions';
 import {HikerGroupActions} from './find-a-group/actions';
 import {ShopActions} from './shop/actions';
 import {RecommendationActions} from './recommendation/actions';
+import {POIActions} from './poi/actions';
+import {StatisticsActions} from './statistics/actions';
 /**
  * This is where you should define your actions:
  *  - its name (this will be use in the `case` clause of the reducer)
@@ -24,4 +26,6 @@ export type AnyActions =
   | ForecastActions
   | CommentActions
   | ShopActions
-  | RecommendationActions;
+  | RecommendationActions
+  | POIActions
+  | StatisticsActions;

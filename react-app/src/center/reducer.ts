@@ -28,7 +28,8 @@ export const enum CenterView {
   hikeDetailView = 'HikeDetailView',
   recommendedHikeDetailView = 'RecommendedHikeDetailView',
   hikeCommentsView = 'HikeCommentsView',
-  recommendedHikeCommentsView = 'RecommendedHikeCommentsView'
+  recommendedHikeCommentsView = 'RecommendedHikeCommentsView',
+  statisticsView = 'StatisticsView'
 }
 
 export const initialCenterState: CenterState = {

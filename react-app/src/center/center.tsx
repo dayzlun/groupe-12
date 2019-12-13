@@ -26,6 +26,7 @@ import {Hike} from '../models/hike';
 import {HikeComments} from '../comment/comments';
 import {Shop} from '../shop/shop';
 import {Recommendation} from '../recommendation/recommendation';
+import { Statistics } from '../statistics/statistics';
 
 const drawerWidth = '240';
 
@@ -106,8 +107,8 @@ const SwitchView: React.FC = () => {
       return <Preferences />;
     case CenterView.findGroupView:
       return <FindAGroup />;
-    case CenterView.addAHikeView:
-      return <AddHike />;
+    case CenterView.statisticsView:
+      return <Statistics />;
     case CenterView.recommendationView:
       return <Recommendation />;
     case CenterView.recommendedHikeDetailView:

@@ -25,7 +25,7 @@ import {AppState} from '../state/store';
 import {ForecastState, initialForecastState} from './reducer';
 import {LoadingPaperSkeleton} from '../common-components';
 import {loadWeaherForecast} from './actions';
-import {HikeCoordinates} from '../models/hike';
+import {LocationCoordinates} from '../models/hike';
 
 const useStyles = makeStyles(theme =>
   createStyles({
@@ -168,7 +168,7 @@ const Forecast: React.FC<{weatherForcast: WeatherForecast}> = ({weatherForcast})
   );
 };
 
-export const ThreeDayForecastTable: React.FC<{coordinates: HikeCoordinates}> = ({coordinates}) => {
+export const ThreeDayForecastTable: React.FC<{coordinates: LocationCoordinates}> = ({coordinates}) => {
   const {weatherForecast, loading} = useSelector<AppState, ForecastState>(state => state.forecast);
   const dispatch = useDispatch();
   React.useEffect(() => {
