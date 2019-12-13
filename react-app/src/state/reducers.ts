@@ -9,8 +9,9 @@ import {hikerGroupReducer} from '../find-a-group/reducer';
 import {forecastReducer} from '../forecast/reducer';
 import {commentReducer} from '../comment/reducer';
 import {shopReducer} from '../shop/reducer';
-import { recommendationReducer } from '../recommendation/reducer';
-import { poiReducer } from '../poi/reducer';
+import {recommendationReducer} from '../recommendation/reducer';
+import {poiReducer} from '../poi/reducer';
+import {statisticsReducer} from '../statistics/reducer';
 
 /**
  * Apply changes to the application state, based on which
@@ -34,7 +35,8 @@ export const reducers: Reducer<AppState, AnyActions> = (
     comment: commentReducer,
     shop: shopReducer,
     recommendation: recommendationReducer,
-    poi: poiReducer
+    poi: poiReducer,
+    statistics: statisticsReducer
   });
   return appReducers(appState, action);
 };

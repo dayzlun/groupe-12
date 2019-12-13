@@ -13,6 +13,7 @@ import {CommentState, initialCommentState} from '../comment/reducer';
 import {initialShopState, ShopState} from '../shop/reducer';
 import {RecommendationState, initialRecommendationState} from '../recommendation/reducer';
 import { POIState, initialPOIState } from '../poi/reducer';
+import { StatisticsState, initialStatisticsState } from '../statistics/reducer';
 
 export const enum LoginStep {
   userSignedOut = 'userSignedOut',
@@ -38,6 +39,7 @@ export type AppState = {
   shop: ShopState;
   recommendation: RecommendationState;
   poi: POIState;
+  statistics: StatisticsState;
 };
 
 export const initialState: AppState = {
@@ -50,7 +52,8 @@ export const initialState: AppState = {
   comment: initialCommentState,
   shop: initialShopState,
   recommendation: initialRecommendationState,
-  poi: initialPOIState
+  poi: initialPOIState,
+  statistics: initialStatisticsState
 };
 
 export const initStore = (middleware: any) => {
