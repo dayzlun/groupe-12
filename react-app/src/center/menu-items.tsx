@@ -58,7 +58,7 @@ export const MainMenuItems: React.FC = () => {
         <ListItemIcon>
           <FavoriteIcon />
         </ListItemIcon>
-        <ListItemText primary="Favorite hikes" />
+        <ListItemText primary="Preferences" />
       </ListItem>
     </List>
   );

@@ -16,7 +16,7 @@ import {BrowseAreas} from '../area/browse-areas';
 import {LoadingPaperSkeleton} from '../common-components';
 import {containerStyle, paperStyle} from '../common-style';
 import {Hike} from '../models/hike';
-import {HikeRating} from '../rating/hike-rating';
+import {HikeStarRating} from '../rating/hike-star-rating';
 import {AppState} from '../state/store';
 import {HikeState} from './reducer';
 import {switchToHikeDetails, switchToHikeComments} from '../center/actions';
@@ -52,7 +52,7 @@ export const HikePaper: React.FC<HikePaperProps> = ({hike, detailsView, comments
           </Typography>
         </Grid>
         <Grid item xs={3}>
-          <HikeRating hikeId={hike.hikeid} />
+          <HikeStarRating hikeId={hike.hikeid} />
         </Grid>
         <Grid item xs={12}>
           <Typography component="p">
