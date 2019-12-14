@@ -11,7 +11,7 @@ import {
 } from '@material-ui/core';
 import * as React from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {loadHikes} from '../hike/actions';
+import {loadHikes, hikesLoaded} from '../hike/actions';
 import {AppState} from '../state/store';
 import {AreaState} from './reducer';
 import {loadAreas, selectAreaOptions} from './actions';
@@ -66,7 +66,7 @@ export const BrowseAreas: React.FC = () => {
           onChange={e => {
             const selectedNames = e.target.value as string[];
             const areaOptions: Area[] = options.filter(({name}) => selectedNames.includes(name));
-            dispatch(loadHikes(areaOptions));
+            areaOptions.length > 0 && dispatch(loadHikes(areaOptions[0].areaid));
             dispatch(selectAreaOptions(areaOptions));
           }}
           input={<Input id="multiple-select-areas" />}
@@ -81,7 +81,7 @@ export const BrowseAreas: React.FC = () => {
                     const withoutThisChip: Area[] = (selected as Area[]).filter(
                       area => area.name !== name
                     );
-                    dispatch(loadHikes(withoutThisChip));
+                    dispatch(hikesLoaded([]));
                     dispatch(selectAreaOptions(withoutThisChip));
                   }}
                   color="secondary"

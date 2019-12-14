@@ -32,17 +32,14 @@ export type LocationCoordinates = {
 };
 
 export namespace RelationalDB {
-  var client: Postgres.Client | null = null;
-
-  /**
-   * Avoid to create a new postgres client
-   * for every requests to the DB
-   */
   export const getClient = (): Postgres.Client => {
-    if (client === null) {
-      client = new Postgres.Client({connectionString: ''});
-    }
-    return client;
+    return new Postgres.Client({
+        user: 'sigl2020',
+        host: 'localhost',
+        database: 'hikedb',
+        password: 'sigl2020',
+        port: 5432
+      });
   };
 
   /**
@@ -51,11 +48,13 @@ export namespace RelationalDB {
   export const getHikingsForArea = async (areaid: string) => {
     const cli = getClient();
     cli.connect();
-    const res = await cli.query<Hike>(`
+    const res = await cli.query(`
       SELECT * FROM public.hikes
       ORDER BY hikeid ASC LIMIT 10
     `);
     cli.end();
     return res.rows;
   };
+
+  export const throwMe = () => { throw new Error('Boom !') }
 }

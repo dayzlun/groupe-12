@@ -15,7 +15,7 @@ import {RecommendationState, initialRecommendationState} from '../recommendation
 import {POIState, initialPOIState} from '../poi/reducer';
 import {StatisticsState, initialStatisticsState} from '../statistics/reducer';
 import {PreferencesState, initialPreferencesState} from '../preferences/reducer';
-import { RatingState, initialRatingState } from '../rating/reducer';
+import {RatingState, initialRatingState} from '../rating/reducer';
 
 export const enum LoginStep {
   userSignedOut = 'userSignedOut',
@@ -45,6 +45,13 @@ export type AppState = {
   preferences: PreferencesState;
   rating: RatingState;
 };
+export type ApiError = {
+  err: string;
+};
+
+export type ApiErrorState = {
+  err?: string;
+}
 
 export const initialState: AppState = {
   login: initialLoginState,

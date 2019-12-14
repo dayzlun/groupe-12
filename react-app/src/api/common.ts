@@ -1,7 +1,5 @@
 import {Credentials} from '../state/store';
 
-export const API_ENDPOINT = 'https://parla-api.groupe12.arla-sigl.fr';
-
 export const delay = async (delayInMs: number): Promise<number> =>
   new Promise(resolve => setTimeout(resolve, delayInMs));
 

@@ -5,7 +5,7 @@ import { mockedAreas } from "../area/reducer";
 
 export const loadAreas = (): Observable<{areas: Area[]}> => {
     const fetchAreas = async () => {
-        await delay(2000);
+        await delay(100);
         return {areas: mockedAreas}
     }
     return from(fetchAreas());
