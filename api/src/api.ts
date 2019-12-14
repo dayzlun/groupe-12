@@ -1,9 +1,7 @@
 import {default as express, Request, Response} from 'express';
 import cors from 'cors';
 import {json} from 'body-parser';
-import * as jsonschema from 'jsonschema';
 import {RelationalDB, HikingJSONSchema, Hike} from './db';
-
 // Configure the server with port
 const app = express();
 const port = 3000;

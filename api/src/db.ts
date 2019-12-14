@@ -1,4 +1,5 @@
 import * as Postgres from 'pg';
+import * as dotenv from 'dotenv';
 // JSON Schema that validates Hiking JSON payloads
 // see: https://github.com/tdegrunt/jsonschema
 // for some schema examples.
@@ -32,14 +33,48 @@ export type LocationCoordinates = {
 };
 
 export namespace RelationalDB {
+  var config: Postgres.ClientConfig;
+  var localConfig: Postgres.ClientConfig;
+
+  const getLocalConfig = () => {
+    if (!localConfig) {
+      const conf = dotenv.config().parsed;
+      const user = conf && conf.DB_USER;
+      const host = conf && conf.DB_HOST;
+      const database = conf && conf.DB_NAME;
+      const password = conf && conf.DB_USER_PASSWORD;
+      const port = conf && +conf.DB_PORT;
+      localConfig = {
+        user,
+        host,
+        database,
+        password,
+        port
+      };
+    }
+    return localConfig;
+  };
+
+  const getConfig = () => {
+    if (!config) {
+      const user = process.env.DB_USER;
+      const host = process.env.DB_HOST;
+      const database = process.env.DB_NAME;
+      const password = process.env.DB_USER_PASSWORD;
+      const port = process.env.DB_PORT;
+      config = {
+        user,
+        host,
+        database,
+        password,
+        port: port ? +port : undefined
+      };
+    }
+    return config;
+  };
+
   export const getClient = (): Postgres.Client => {
-    return new Postgres.Client({
-        user: 'sigl2020',
-        host: 'localhost',
-        database: 'hikedb',
-        password: 'sigl2020',
-        port: 5432
-      });
+    return new Postgres.Client(getConfig());
   };
 
   /**
