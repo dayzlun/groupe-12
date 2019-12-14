@@ -20,7 +20,7 @@ app.get('/v1/hikes', async (req: Request, res: Response) => {
   if (areaid) {
     try {
       const rows = await RelationalDB.getHikingsForArea(areaid);
-      const hikes: Hike[] = rows.map(({hikeid, hikename}) => ({
+      const hikes: Hike[] = rows.map(({hikeid, name}) => ({
         hikeid: `${hikeid}`,
         name: name,
         elevationGain: '1200 ft',
