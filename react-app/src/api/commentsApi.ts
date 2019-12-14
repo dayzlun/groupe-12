@@ -5,7 +5,7 @@ import {mockComments} from '../comment/reducer';
 
 const fetchHikeComments = async (hikeid: string) => {
     let comments: Comment[] = [];
-    const {res, err} = await tryFetch<Comment[]>('Comments API', `https://comments.arla-sigl.fr/v1/hike?hikeid=${hikeid}`)
+    const {res, err} = await tryFetch<Comment[]>('Comments API', `https://comments.groupe2.arla-sigl.fr/v1/hike/hikeid/${hikeid}`)
     if (res) {
         comments = res;
     }
