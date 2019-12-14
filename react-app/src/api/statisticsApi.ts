@@ -11,7 +11,7 @@ const fetchDurationStats = async (userid: string) => {
   let userDurationWalkStats : UserDurationWalkedStats | undefined;
   const {res, err} = await tryFetch<UserDurationWalkedStats>(
     'Duration Stats API',
-    `https://duration-stats.arla-sigl.fr/v1/duration?userid=${userid}`
+    `https://duration-stats.groupe6.arla-sigl.fr/v1/duration/userid/${userid}`
   );
   if (res) {
     userDurationWalkStats = res;

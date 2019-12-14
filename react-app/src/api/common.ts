@@ -1,5 +1,5 @@
 import {Credentials} from '../state/store';
-export const HIKE_API_ENDPOINT = 'http://localhost:3000';
+export const HIKE_API_ENDPOINT = 'https://hikes.groupe12.arla-sigl.fr';
 
 export const delay = async (delayInMs: number): Promise<number> =>
   new Promise(resolve => setTimeout(resolve, delayInMs));
