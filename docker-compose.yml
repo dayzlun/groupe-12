@@ -18,8 +18,11 @@ services:
     container_name: hike-api
     env_file:
       - db.env
+    networks:
+      - web
     labels:
       - "traefik.enable=true"
+      - "traefik.docker.network=web"
       - "traefik.frontend.rule=Host:hikes.${ARLA_GROUP_ENDPOINT}"
       - "traefik.frontend.port=3000"
     expose:
