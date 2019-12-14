@@ -23,7 +23,7 @@ const fetchDistanceStats = async (userid: string) => {
   let userDistanceWalkStats : UserDistanceWalkedStats | undefined;
   const {res, err} = await tryFetch<UserDistanceWalkedStats>(
     'Distance Stats API',
-    `https://distance-stats.arla-sigl.fr/v1/distance?userid=${userid}`
+    `https://distance-stats.groupe5.arla-sigl.fr/v1/distance?userid=${userid}`
   );
   if (res) {
     userDistanceWalkStats = res;

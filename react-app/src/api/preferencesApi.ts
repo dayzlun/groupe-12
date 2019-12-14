@@ -5,7 +5,7 @@ import {mockedUserPreferences} from '../preferences/reducer';
 
 const fetchUserPreferences = async (userid: string) => {
   let userPreferences: UserPreferences | undefined;
-  const {res, err} = await tryFetch<UserPreferences>('Preferences API', `https://preferences.arla-sigl.fr/v1/preferences?userid=${userid}`)
+  const {res, err} = await tryFetch<UserPreferences>('Preferences API', `https://parla-api.groupe4.arla-sigl.fr/v1/preferences?=${userid}`)
   if (res) {
       userPreferences = res;
   }
