@@ -4,11 +4,14 @@ import {PointOfInterest, POILabel} from '../models/point-of-interest';
 import {
   LOAD_POINTS_OF_INTERESTS,
   POINTS_OF_INTEREST_LOADED,
-  PointsOfInterestLoaded
+  PointsOfInterestLoaded,
+  POI_API_ERROR,
+  PoiApiError
 } from './actions';
 import {poiEpics} from './epics';
+import { ApiErrorState } from '../state/store';
 
-export type POIState = {
+export type POIState = ApiErrorState & {
   pois: PointOfInterest[];
   loading: boolean;
 };
@@ -58,6 +61,12 @@ export const poiReducer: Reducer<POIState, AnyActions> = (
         loading: false,
         pois
       };
+    case POI_API_ERROR:
+      return {
+        ...poiState,
+        loading: false,
+        err: (action as PoiApiError).err
+      }
     default:
       return poiState;
   }

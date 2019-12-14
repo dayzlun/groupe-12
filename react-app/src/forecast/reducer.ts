@@ -1,7 +1,8 @@
 import {Reducer} from 'redux';
 import {WeatherForecast} from '../models/forecast';
 import {AnyActions} from '../actions';
-import {LOAD_WEATHER_FORECAST, WEATHER_FORECAST_LOADED, WeatherForecastLoaded} from './actions';
+import {LOAD_WEATHER_FORECAST, WEATHER_FORECAST_LOADED, WeatherForecastLoaded, FORECAST_API_ERROR, ForecastApiError} from './actions';
+import { ApiErrorState } from '../state/store';
 
 export const mockedWeatherForecast: WeatherForecast = {
   city: {
@@ -250,7 +251,7 @@ export const mockedWeatherForecast: WeatherForecast = {
   ]
 };
 
-export type ForecastState = {
+export type ForecastState = ApiErrorState & {
   weatherForecast?: WeatherForecast;
   loading: boolean;
 };
@@ -277,6 +278,13 @@ export const forecastReducer: Reducer<ForecastState, AnyActions> = (
         weatherForecast,
         loading: false
       };
+    case FORECAST_API_ERROR:
+      return {
+        ...forecastState,
+        weatherForecast: undefined,
+        loading: false,
+        err: (action as ForecastApiError).err,
+      }
     default:
       return forecastState;
   }

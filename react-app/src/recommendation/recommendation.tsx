@@ -7,7 +7,7 @@ import {User} from '../models/user';
 import {loadRecommendedHikes} from './actions';
 import {RecommendationState} from './reducer';
 import {HikePaper} from '../hike/hike';
-import {LoadingPaperSkeleton} from '../common-components';
+import {LoadingPaperSkeleton, ErrorPaper} from '../common-components';
 import {CenterView} from '../center/reducer';
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const RecommendedHikes: React.FC<{userid: string}> = ({userid}) => {
   const dispatch = useDispatch();
-  const {hikes, loading} = useSelector<AppState, RecommendationState>(
+  const {hikes, loading, err} = useSelector<AppState, RecommendationState>(
     state => state.recommendation
   );
   React.useEffect(() => {
@@ -28,7 +28,7 @@ const RecommendedHikes: React.FC<{userid: string}> = ({userid}) => {
     <Grid container spacing={3}>
       {loading ? (
         <LoadingPaperSkeleton />
-      ) : (
+      ) : err ? <ErrorPaper err={err} /> : (
         hikes.map((hike, i) => (
           <Grid key={i} item xs={12}>
             <HikePaper

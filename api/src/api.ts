@@ -28,14 +28,14 @@ app.get('/v1/hikes', async (req: Request, res: Response) => {
         elevationGain: '1200 ft',
         coord: {lat: 123.4, lon: 12.34}
       }));
-      RelationalDB.throwMe();
       res.send(hikes);
     } catch (e) {
       res.statusCode = 500;
       res.send({error: e});
     }
   } else {
-    res.send([]);
+    res.statusCode = 400;
+    res.send({error: 'bad request to hikes, missing areaid'});
   }
 });
 

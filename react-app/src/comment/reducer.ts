@@ -1,10 +1,17 @@
 import {Reducer} from 'redux';
 import {AnyActions} from '../actions';
-import {HIKE_COMMENTS_LOADED, HikeCommentsLoaded, LOAD_HIKE_COMMENTS} from './actions';
+import {
+  HIKE_COMMENTS_LOADED,
+  HikeCommentsLoaded,
+  LOAD_HIKE_COMMENTS,
+  COMMENTS_API_ERROR,
+  CommentsApiError
+} from './actions';
 import {Comment} from '../models/comments';
-import { testUser } from '../api/common';
+import {testUser} from '../api/common';
+import {ApiErrorState} from '../state/store';
 
-export type CommentState = {
+export type CommentState = ApiErrorState & {
   comments: Comment[];
   loading: boolean;
 };
@@ -14,20 +21,22 @@ export const initialCommentState: CommentState = {
   loading: false
 };
 
-export const mockComments: Comment[] = [{
-  comment: 'Awesome hike!',
-  commentId: 'comment1',
-  user: testUser,
-  commentedAt: 1575795079117,
-  hikeid: '1'
-},
-{
-  comment: 'Group was cool, nice landscape.',
-  commentId: 'comment2',
-  user: testUser,
-  commentedAt: 1575795078923,
-  hikeid: '1'
-}]
+export const mockComments: Comment[] = [
+  {
+    comment: 'Awesome hike!',
+    commentId: 'comment1',
+    user: testUser,
+    commentedAt: 1575795079117,
+    hikeid: '1'
+  },
+  {
+    comment: 'Group was cool, nice landscape.',
+    commentId: 'comment2',
+    user: testUser,
+    commentedAt: 1575795078923,
+    hikeid: '1'
+  }
+];
 
 export const commentReducer: Reducer<CommentState, AnyActions> = (
   commentState: CommentState | undefined,
@@ -47,6 +56,12 @@ export const commentReducer: Reducer<CommentState, AnyActions> = (
         ...commentState,
         loading: false,
         comments
+      };
+    case COMMENTS_API_ERROR:
+      return {
+        ...commentState,
+        loading: false,
+        err: (action as CommentsApiError).err
       };
     default:
       return commentState;

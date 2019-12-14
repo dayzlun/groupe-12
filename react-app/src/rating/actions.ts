@@ -1,5 +1,6 @@
 import {Action} from 'redux';
 import {HikeRating} from '../models/hike-rating';
+import { ApiError } from '../state/store';
 
 export const LOAD_HIKE_RATING = 'rating#loadHikeRating';
 export type LoadHikeRating = Action & {
@@ -19,4 +20,12 @@ export const hikeRatingLoaded = (hikeRating: HikeRating): HikeRatingLoaded => ({
   hikeRating
 });
 
-export type RatingActions = LoadHikeRating | HikeRatingLoaded;
+export const RATING_API_ERROR = 'rating#ratingApiError';
+export type RatingApiError = Action & ApiError;
+export const ratingApiError = (err: string): RatingApiError => ({
+   type: RATING_API_ERROR,
+   err
+});
+
+
+export type RatingActions = LoadHikeRating | HikeRatingLoaded | RatingApiError;

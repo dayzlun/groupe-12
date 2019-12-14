@@ -1,10 +1,17 @@
 import {Reducer} from 'redux';
 import {AnyActions} from '../actions';
 import {Hike} from '../models/hike';
-import {LOAD_RECOMMENDED_HIKES, RECOMMENDED_HIKES_LOADED, RecommendedHikesLoaded} from './actions';
-import { mockedHikes } from '../hike/reducer';
+import {
+  LOAD_RECOMMENDED_HIKES,
+  RECOMMENDED_HIKES_LOADED,
+  RecommendedHikesLoaded,
+  RecommendationApiError,
+  RECOMMENDATION_API_ERROR
+} from './actions';
+import {mockedHikes} from '../hike/reducer';
+import {ApiErrorState} from '../state/store';
 
-export type RecommendationState = {
+export type RecommendationState = ApiErrorState & {
   hikes: Hike[];
   loading: boolean;
 };
@@ -34,6 +41,12 @@ export const recommendationReducer: Reducer<RecommendationState, AnyActions> = (
         ...recommendationState,
         loading: false,
         hikes
+      };
+    case RECOMMENDATION_API_ERROR:
+      return {
+        ...recommendationState,
+        loading: false,
+        err: (action as RecommendationApiError).err
       };
     default:
       return recommendationState;

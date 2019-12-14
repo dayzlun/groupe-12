@@ -1,12 +1,21 @@
 import {Observable, from} from 'rxjs';
-import {delay} from './common';
+import {delay, tryFetch} from './common';
 import {HikeRating} from '../models/hike-rating';
 
-export const getRatingForHike = (hikeid: string): Observable<{hikeRating: HikeRating}> => {
-  const fakeApi = async (hikeid: string) => {
-    await delay(1500);
-    return {hikeRating: {hikeid, numberOfRaters: 67, rating: 4}};
-  };
+const fetchRatings = async (hikeid: string) => {
+  let hikeRating: HikeRating | undefined;
+  const {res, err} = await tryFetch<HikeRating>(
+    'Rating API',
+    `https://ratings.arla-sigl.fr/v1/hike?hikeid=${hikeid}`
+  );
+  if (res) {
+    hikeRating = res;
+  }
+  return {hikeRating, err};
+};
 
-  return from(fakeApi(hikeid));
+export const getRatingForHike = (
+  hikeid: string
+): Observable<{hikeRating?: HikeRating; err?: string}> => {
+  return from(fetchRatings(hikeid));
 };

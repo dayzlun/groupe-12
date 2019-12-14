@@ -24,6 +24,7 @@ import {PreferencesState} from './reducer';
 import {loadUserPreferences} from './actions';
 import {User} from '../models/user';
 import {HikerAgeRange} from '../models/preferences';
+import {ErrorPaper} from '../common-components';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -41,7 +42,7 @@ const useStyles = makeStyles((theme: Theme) =>
 export const Preferences: React.FC = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const {userPreferences, loading} = useSelector<AppState, PreferencesState>(
+  const {userPreferences, loading, err} = useSelector<AppState, PreferencesState>(
     state => state.preferences
   );
   const user = useSelector<AppState, User | undefined>(state => state.login.userSession.user);
@@ -72,80 +73,86 @@ export const Preferences: React.FC = () => {
             Manage your preferences
           </Typography>
         </Grid>
-        <Grid item xs={7}>
-          <Typography>
-            <ElevationIcon />
-            Elevation Gain
-          </Typography>
+        {err || !userPreferences ? (
+          <ErrorPaper err={err || 'Unknown'} />
+        ) : (
+          <>
+            <Grid item xs={7}>
+              <Typography>
+                <ElevationIcon />
+                Elevation Gain
+              </Typography>
 
-          <Slider
-            disabled={loading}
-            value={elevationGain}
-            onChange={(e, v) => setElevationGain(v as number)}
-            getAriaValueText={s => `+/- ${s}`}
-            valueLabelDisplay="on"
-            step={50}
-            min={0}
-            max={2000}
-          />
-        </Grid>
-        <Grid item xs={7}>
-          <FormControl className={classes.formControl} disabled={loading}>
-            <InputLabel htmlFor="age-select">Prefered other hiker's age</InputLabel>
-            <Select
-              native
-              value={age}
-              onChange={e => setAge(e.target.value as HikerAgeRange)}
-              inputProps={{
-                name: 'age',
-                id: 'age-select'
-              }}
-            >
-              <option value={HikerAgeRange.none} />
-              <option value={HikerAgeRange.minor}>{HikerAgeRange.minor}</option>
-              <option value={HikerAgeRange.youth}>{HikerAgeRange.youth}</option>
-              <option value={HikerAgeRange.thirties}>{HikerAgeRange.thirties}</option>
-              <option value={HikerAgeRange.aboveForty}>{HikerAgeRange.aboveForty}</option>
-            </Select>
-          </FormControl>
-        </Grid>
-        <Grid item xs={7}>
-          <Typography gutterBottom>
-            <TimerIcon />
-            Average Hike duration
-          </Typography>
-          <Slider
-            disabled={loading}
-            value={hikeDuration}
-            onChange={(e, v) => setHikeDuration(v as number)}
-            getAriaValueText={s => `${s} h`}
-            valueLabelDisplay="on"
-            step={1}
-            min={1}
-            max={24}
-          />
-        </Grid>
-        <Grid item xs={7}>
-          <Grid container>
-            <Grid item xs={4}>
-              <Button
+              <Slider
                 disabled={loading}
-                variant="contained"
-                color="primary"
-                size="large"
-                startIcon={<SaveIcon />}
-              >
-                Save
-              </Button>
+                value={elevationGain}
+                onChange={(e, v) => setElevationGain(v as number)}
+                getAriaValueText={s => `+/- ${s}`}
+                valueLabelDisplay="on"
+                step={50}
+                min={0}
+                max={2000}
+              />
             </Grid>
-            <Grid item xs={4} />
-            <Grid item xs={4}>
-              <Button disabled={loading} size="large" startIcon={<CancelIcon />}>
-                Cancel
-              </Button>
+            <Grid item xs={7}>
+              <FormControl className={classes.formControl} disabled={loading}>
+                <InputLabel htmlFor="age-select">Prefered other hiker's age</InputLabel>
+                <Select
+                  native
+                  value={age}
+                  onChange={e => setAge(e.target.value as HikerAgeRange)}
+                  inputProps={{
+                    name: 'age',
+                    id: 'age-select'
+                  }}
+                >
+                  <option value={HikerAgeRange.none} />
+                  <option value={HikerAgeRange.minor}>{HikerAgeRange.minor}</option>
+                  <option value={HikerAgeRange.youth}>{HikerAgeRange.youth}</option>
+                  <option value={HikerAgeRange.thirties}>{HikerAgeRange.thirties}</option>
+                  <option value={HikerAgeRange.aboveForty}>{HikerAgeRange.aboveForty}</option>
+                </Select>
+              </FormControl>
             </Grid>
-          </Grid>
-        </Grid>
+            <Grid item xs={7}>
+              <Typography gutterBottom>
+                <TimerIcon />
+                Average Hike duration
+              </Typography>
+              <Slider
+                disabled={loading}
+                value={hikeDuration}
+                onChange={(e, v) => setHikeDuration(v as number)}
+                getAriaValueText={s => `${s} h`}
+                valueLabelDisplay="on"
+                step={1}
+                min={1}
+                max={24}
+              />
+            </Grid>
+            <Grid item xs={7}>
+              <Grid container>
+                <Grid item xs={4}>
+                  <Button
+                    disabled={loading}
+                    variant="contained"
+                    color="primary"
+                    size="large"
+                    startIcon={<SaveIcon />}
+                  >
+                    Save
+                  </Button>
+                </Grid>
+                <Grid item xs={4} />
+                <Grid item xs={4}>
+                  <Button disabled={loading} size="large" startIcon={<CancelIcon />}>
+                    Cancel
+                  </Button>
+                </Grid>
+              </Grid>
+            </Grid>
+          </>
+        )}
       </Grid>
     </Container>
   );

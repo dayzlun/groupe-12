@@ -19,7 +19,7 @@ import {PoiImageMap} from './helper';
 import {useSelector, useDispatch} from 'react-redux';
 import {AppState} from '../state/store';
 import {POIState} from './reducer';
-import {LoadingCardSkeleton} from '../common-components';
+import {LoadingCardSkeleton, ErrorPaper} from '../common-components';
 import {loadPointsOfInterest} from './actions';
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -60,7 +60,7 @@ const POI: React.FC<{poi: PointOfInterest}> = ({poi}) => {
 
 export const PointsOfInterest: React.FC<{hikeid: string}> = ({hikeid}) => {
   const classes = useStyles();
-  const {pois, loading} = useSelector<AppState, POIState>(state => state.poi);
+  const {pois, loading, err} = useSelector<AppState, POIState>(state => state.poi);
   const dispatch = useDispatch();
   // Load points of interests when component is mounting
   React.useEffect(() => {
@@ -78,7 +78,7 @@ export const PointsOfInterest: React.FC<{hikeid: string}> = ({hikeid}) => {
               <LoadingCardSkeleton />
             </Grid>
           ))
-        : pois.map((poi, i) => (
+        : err ? <ErrorPaper err={err} /> : pois.map((poi, i) => (
             <Grid item key={i} xs={4}>
               <POI poi={poi} />
             </Grid>

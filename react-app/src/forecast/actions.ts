@@ -1,6 +1,7 @@
 import {Action} from 'redux';
 import {WeatherForecast} from '../models/forecast';
 import {LocationCoordinates} from '../models/hike';
+import { ApiError } from '../state/store';
 
 export const LOAD_WEATHER_FORECAST = 'forecast#loadWeaherForecast';
 export type LoadWeatherForecast = Action & {
@@ -19,5 +20,13 @@ export const weatherForecastLoaded = (weatherForecast: WeatherForecast): Weather
   type: WEATHER_FORECAST_LOADED,
   weatherForecast
 });
+
+export const FORECAST_API_ERROR = 'forecast#forecastApiError';
+export type ForecastApiError = Action & ApiError;
+export const forecastApiError = (err: string): ForecastApiError => ({
+   type: FORECAST_API_ERROR,
+   err
+});
+
 
 export type ForecastActions = LoadWeatherForecast | WeatherForecastLoaded;

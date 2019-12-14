@@ -8,7 +8,11 @@ import {
   UserDistanceWalkedLoaded,
   LOAD_USER_DURATION_WALKED,
   USER_DURATION_WALKED_LOADED,
-  UserDurationWalkedLoaded
+  UserDurationWalkedLoaded,
+  DURATION_STATS_API_ERROR,
+  DurationStatsApiError,
+  DISTANCE_STATS_API_ERROR,
+  DistanceStatsApiError
 } from './actions';
 
 export type UserDurationWalkedStats = {
@@ -26,6 +30,8 @@ export type StatisticsState = {
   userDurationWalked?: UserDurationWalkedStats;
   loadingDistance: boolean;
   loadingDuration: boolean;
+  durationApiError?: string;
+  distanceApiError?: string;
 };
 
 export const initialStatisticsState: StatisticsState = {
@@ -91,6 +97,18 @@ export const statisticsReducer: Reducer<StatisticsState, AnyActions> = (
         loadingDuration: false,
         userDurationWalked
       };
+    case DISTANCE_STATS_API_ERROR:
+          return {
+            ...statisticState,
+            loadingDistance: false,
+            distanceApiError: (action as DistanceStatsApiError).err
+          }
+    case DURATION_STATS_API_ERROR:
+      return {
+        ...statisticState,
+        loadingDuration: false,
+        durationApiError: (action as DurationStatsApiError).err
+      }
     default:
       return statisticState;
   }

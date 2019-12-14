@@ -55,6 +55,4 @@ export namespace RelationalDB {
     cli.end();
     return res.rows;
   };
-
-  export const throwMe = () => { throw new Error('Boom !') }
 }

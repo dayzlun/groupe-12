@@ -20,7 +20,7 @@ import {useSelector, useDispatch} from 'react-redux';
 import {AppState} from '../state/store';
 import {User} from '../models/user';
 import {ShopState} from './reducer';
-import {LoadingCardSkeleton} from '../common-components';
+import {LoadingCardSkeleton, ErrorPaper} from '../common-components';
 import {CatalogItem} from '../models/catalog-item';
 import {loadCatalog} from './actions';
 
@@ -64,7 +64,7 @@ const CatalogItem: React.FC<{item: CatalogItem}> = ({item}) => {
 };
 
 const Catalog: React.FC<{userid: string}> = ({userid}) => {
-  const {items, loading} = useSelector<AppState, ShopState>(state => state.shop);
+  const {items, loading, err} = useSelector<AppState, ShopState>(state => state.shop);
   const dispatch = useDispatch();
   // Load catalog items when component is mounted
   React.useEffect(() => {
@@ -73,17 +73,21 @@ const Catalog: React.FC<{userid: string}> = ({userid}) => {
 
   return (
     <Grid container spacing={3}>
-      {loading
-        ? Array.from(new Array(3)).map((_, i) => (
-            <Grid item key={i}>
-              <LoadingCardSkeleton />
-            </Grid>
-          ))
-        : items.map((item, i) => (
-            <Grid item xs={4} key={i}>
-              <CatalogItem item={item} />
-            </Grid>
-          ))}
+      {loading ? (
+        Array.from(new Array(3)).map((_, i) => (
+          <Grid item key={i}>
+            <LoadingCardSkeleton />
+          </Grid>
+        ))
+      ) : err ? (
+        <ErrorPaper err={err} />
+      ) : (
+        items.map((item, i) => (
+          <Grid item xs={4} key={i}>
+            <CatalogItem item={item} />
+          </Grid>
+        ))
+      )}
     </Grid>
   );
 };
