@@ -34,26 +34,6 @@ export type LocationCoordinates = {
 
 export namespace RelationalDB {
   var config: Postgres.ClientConfig;
-  var localConfig: Postgres.ClientConfig;
-
-  const getLocalConfig = () => {
-    if (!localConfig) {
-      const conf = dotenv.config().parsed;
-      const user = conf && conf.DB_USER;
-      const host = conf && conf.DB_HOST;
-      const database = conf && conf.DB_NAME;
-      const password = conf && conf.DB_USER_PASSWORD;
-      const port = conf && +conf.DB_PORT;
-      localConfig = {
-        user,
-        host,
-        database,
-        password,
-        port
-      };
-    }
-    return localConfig;
-  };
 
   const getConfig = () => {
     if (!config) {
