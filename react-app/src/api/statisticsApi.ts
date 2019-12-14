@@ -5,24 +5,40 @@ import {
   UserDistanceWalkedStats,
   UserDurationWalkedStats
 } from '../statistics/reducer';
-import {delay} from './common';
+import {delay, tryFetch} from './common';
+
+const fetchDurationStats = async (userid: string) => {
+  let userDurationWalkStats : UserDurationWalkedStats | undefined;
+  const {res, err} = await tryFetch<UserDurationWalkedStats>(
+    'Duration Stats API',
+    `https://duration-stats.arla-sigl.fr/v1/duration?userid=${userid}`
+  );
+  if (res) {
+    userDurationWalkStats = res;
+  }
+  return {userDurationWalkStats, err};
+};
+
+const fetchDistanceStats = async (userid: string) => {
+  let userDistanceWalkStats : UserDistanceWalkedStats | undefined;
+  const {res, err} = await tryFetch<UserDistanceWalkedStats>(
+    'Distance Stats API',
+    `https://distance-stats.arla-sigl.fr/v1/distance?userid=${userid}`
+  );
+  if (res) {
+    userDistanceWalkStats = res;
+  }
+  return {userDistanceWalkStats, err};
+};
 
 export const getUserDurationWalkedStats = (
   userid: string
-): Observable<{userDurationWalkStats: UserDurationWalkedStats}> => {
-  const fakeApi = async (userid: string) => {
-    await delay(2000);
-    return {userDurationWalkStats: mockedWalkedDuration};
-  };
-  return from(fakeApi(userid));
+): Observable<{userDurationWalkStats?: UserDurationWalkedStats, err?: string}> => {
+  return from(fetchDurationStats(userid));
 };
 
 export const getUserDistanceWalkedStats = (
   userid: string
-): Observable<{userDistanceWalkStats: UserDistanceWalkedStats}> => {
-  const fakeApi = async (userid: string) => {
-    await delay(2000);
-    return {userDistanceWalkStats: mockedWalkedDistance};
-  };
-  return from(fakeApi(userid));
+): Observable<{userDistanceWalkStats?: UserDistanceWalkedStats, err?: string}> => {
+  return from(fetchDistanceStats(userid));
 };

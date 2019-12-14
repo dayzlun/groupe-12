@@ -1,9 +1,16 @@
 import {Reducer} from 'redux';
 import {AnyActions} from '../actions';
 import {UserPreferences, HikerAgeRange} from '../models/preferences';
-import {LOAD_USER_PREFERENCES, USER_PREFERENCES_LOADED, UserPreferencesLoaded} from './actions';
+import {
+  LOAD_USER_PREFERENCES,
+  USER_PREFERENCES_LOADED,
+  UserPreferencesLoaded,
+  PREFERENCES_API_ERROR,
+  PreferencesApiError
+} from './actions';
+import {ApiErrorState} from '../state/store';
 
-export type PreferencesState = {
+export type PreferencesState = ApiErrorState & {
   userPreferences?: UserPreferences;
   loading: boolean;
 };
@@ -37,6 +44,12 @@ export const preferencesReducer: Reducer<PreferencesState, AnyActions> = (
         ...preferencesState,
         loading: false,
         userPreferences
+      };
+    case PREFERENCES_API_ERROR:
+      return {
+        ...preferencesState,
+        loading: false,
+        err: (action as PreferencesApiError).err
       };
     default:
       return preferencesState;

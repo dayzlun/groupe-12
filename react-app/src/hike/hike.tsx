@@ -13,7 +13,7 @@ import ElevationIcon from '@material-ui/icons/FilterHdr';
 import * as React from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import {BrowseAreas} from '../area/browse-areas';
-import {LoadingPaperSkeleton} from '../common-components';
+import {LoadingPaperSkeleton, ErrorPaper} from '../common-components';
 import {containerStyle, paperStyle} from '../common-style';
 import {Hike} from '../models/hike';
 import {HikeStarRating} from '../rating/hike-star-rating';
@@ -83,7 +83,7 @@ export const HikePaper: React.FC<HikePaperProps> = ({hike, detailsView, comments
 
 export const Hikes: React.FC = () => {
   const classes = useStyles();
-  const {hikes, loading} = useSelector<AppState, HikeState>(state => state.hike);
+  const {hikes, loading, err} = useSelector<AppState, HikeState>(state => state.hike);
 
   return (
     <Container className={classes.container}>
@@ -98,6 +98,8 @@ export const Hikes: React.FC = () => {
           <Grid item xs={12}>
             <LoadingPaperSkeleton />
           </Grid>
+        ) : err ? (
+          <ErrorPaper err={err} />
         ) : (
           hikes.map((hike, i) => (
             <Grid item xs={12} key={i}>

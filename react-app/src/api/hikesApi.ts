@@ -1,13 +1,18 @@
-import {Hike} from '../models/hike';
-import {delay} from './common';
-import {mockedHikes} from '../hike/reducer';
 import {from, Observable} from 'rxjs';
-import {Area} from '../models/area';
+import {Hike} from '../models/hike';
+import {HIKE_API_ENDPOINT, tryFetch} from './common';
 
-export const fetchHikesObservable = (areas: Area[]): Observable<{hikes: Hike[]}> => {
-  const fetchHikes = async () => {
-    await delay(3000);
-    return {hikes: mockedHikes};
-  };
-  return from(fetchHikes());
+const fetchHikes = async (areaid: string) => {
+  let hikes: Hike[] = [];
+  const {res, err} = await tryFetch<Hike[]>(
+    'Hikes API',
+    `${HIKE_API_ENDPOINT}/v1/hikes?areaid=${areaid}`
+  );
+  if (res) {
+    hikes = res;
+  }
+  return {hikes, err};
 };
+
+export const getHikesForArea = (areaid: string): Observable<{hikes: Hike[]; err?: string}> =>
+  from(fetchHikes(areaid));

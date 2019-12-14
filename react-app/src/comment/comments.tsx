@@ -27,7 +27,7 @@ import {Hike} from '../models/hike';
 import {addCommentToHike, loadHikeComments} from './actions';
 import {AppState} from '../state/store';
 import {CommentState} from './reducer';
-import {LoadingPaperSkeleton} from '../common-components';
+import {LoadingPaperSkeleton, ErrorPaper} from '../common-components';
 import {User} from '../models/user';
 import {switchView} from '../center/actions';
 import {CenterView} from '../center/reducer';
@@ -108,9 +108,12 @@ const AddCommentToHike: React.FC<{hikeid: string}> = ({hikeid}) => {
   );
 };
 
-export const HikeComments: React.FC<{hike: Hike; backToView: CenterView}> = ({hike, backToView}) => {
+export const HikeComments: React.FC<{hike: Hike; backToView: CenterView}> = ({
+  hike,
+  backToView
+}) => {
   const classes = useStyles();
-  const {comments, loading} = useSelector<AppState, CommentState>(state => state.comment);
+  const {comments, loading, err} = useSelector<AppState, CommentState>(state => state.comment);
   const dispatch = useDispatch();
   // Load this hike comments when component is mounting
   React.useEffect(() => {
@@ -125,15 +128,17 @@ export const HikeComments: React.FC<{hike: Hike; backToView: CenterView}> = ({hi
         </Grid>
         <Grid item xs={2}>
           <Button onClick={() => dispatch(switchView(backToView))}>
-            <CloseIcon fontSize='large' />
+            <CloseIcon fontSize="large" />
           </Button>
         </Grid>
-        <Grid item xs={12}>
+        { !err && <Grid item xs={12}>
           <AddCommentToHike hikeid={hike.hikeid} />
-        </Grid>
+        </Grid>}
         <Grid item xs={12}>
           {loading ? (
             <LoadingPaperSkeleton />
+          ) : err ? (
+            <ErrorPaper err={err} />
           ) : (
             <List>
               {comments.map((comment, i) => (

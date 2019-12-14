@@ -23,7 +23,7 @@ import {groupByForecastKey, ForecastGroupedByKey, iconMap} from './helper';
 import {useSelector, useDispatch} from 'react-redux';
 import {AppState} from '../state/store';
 import {ForecastState, initialForecastState} from './reducer';
-import {LoadingPaperSkeleton} from '../common-components';
+import {LoadingPaperSkeleton, ErrorPaper} from '../common-components';
 import {loadWeaherForecast} from './actions';
 import {LocationCoordinates} from '../models/hike';
 
@@ -64,10 +64,7 @@ const ForecastForDay: React.FC<{forecast: ThreeHourForecast[]}> = ({forecast}) =
           {dataRows.weatherIcons.map((icons, i) => (
             <TableCell key={i} align="center">
               {icons.map((icon, j) => (
-                <i
-                  key={j}
-                  className={`wi ${iconMap[icon]} ${classes.icon}`}
-                ></i>
+                <i key={j} className={`wi ${iconMap[icon]} ${classes.icon}`}></i>
               ))}
             </TableCell>
           ))}
@@ -168,17 +165,21 @@ const Forecast: React.FC<{weatherForcast: WeatherForecast}> = ({weatherForcast})
   );
 };
 
-export const ThreeDayForecastTable: React.FC<{coordinates: LocationCoordinates}> = ({coordinates}) => {
-  const {weatherForecast, loading} = useSelector<AppState, ForecastState>(state => state.forecast);
+export const ThreeDayForecastTable: React.FC<{coordinates: LocationCoordinates}> = ({
+  coordinates
+}) => {
+  const {weatherForecast, loading, err} = useSelector<AppState, ForecastState>(
+    state => state.forecast
+  );
   const dispatch = useDispatch();
   React.useEffect(() => {
     dispatch(loadWeaherForecast(coordinates));
   }, []);
   return loading ? (
     <LoadingPaperSkeleton />
-  ) : weatherForecast ? (
-    <Forecast weatherForcast={weatherForecast} />
+  ) : err || !weatherForecast ? (
+    <ErrorPaper err={err || 'Unknown'} />
   ) : (
-    <h1>Oups!</h1>
+    <Forecast weatherForcast={weatherForecast} />
   );
 };

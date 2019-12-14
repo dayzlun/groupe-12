@@ -1,9 +1,10 @@
 import {Reducer} from 'redux';
 import {AnyActions} from '../actions';
 import {CatalogItem} from '../models/catalog-item';
-import {LOAD_CATALOG, CATALOG_LOADED, CatalogLoaded} from './actions';
+import {LOAD_CATALOG, CATALOG_LOADED, CatalogLoaded, CATALOG_API_ERROR, CatalogApiError} from './actions';
+import { ApiErrorState } from '../state/store';
 
-export type ShopState = {
+export type ShopState = ApiErrorState & {
   items: CatalogItem[];
   loading: boolean;
 };
@@ -98,6 +99,12 @@ export const shopReducer: Reducer<ShopState, AnyActions> = (
         loading: false,
         items
       };
+    case CATALOG_API_ERROR:
+      return {
+        ...shopState,
+        loading: false,
+        err: (action as CatalogApiError).err
+      }
     default:
       return shopState;
   }

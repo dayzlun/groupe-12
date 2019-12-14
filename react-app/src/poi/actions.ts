@@ -1,5 +1,6 @@
 import {Action} from 'redux';
 import {PointOfInterest} from '../models/point-of-interest';
+import { ApiError } from '../state/store';
 
 export const LOAD_POINTS_OF_INTERESTS = 'poi#loadPointsOfInterest';
 export type LoadPointsOfInterest = Action & {
@@ -19,4 +20,13 @@ export const pointsOfInterestLoaded = (pois: PointOfInterest[]): PointsOfInteres
   pois
 });
 
-export type POIActions = LoadPointsOfInterest | PointsOfInterestLoaded;
+export const POI_API_ERROR = 'poi#poiApiError';
+export type PoiApiError = Action & ApiError;
+
+export const poiApiError = (err: string): PoiApiError => ({
+   type: POI_API_ERROR,
+   err
+});
+
+
+export type POIActions = LoadPointsOfInterest | PointsOfInterestLoaded | PoiApiError;

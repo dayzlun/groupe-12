@@ -1,5 +1,6 @@
 import {Action} from 'redux';
 import {CatalogItem} from '../models/catalog-item';
+import { ApiError } from '../state/store';
 
 export const LOAD_CATALOG = 'shop#loadCatalog';
 export type LoadCatalog = Action & {
@@ -19,4 +20,13 @@ export const catalogLoaded = (items: CatalogItem[]): CatalogLoaded => ({
   items
 });
 
-export type ShopActions = LoadCatalog | CatalogLoaded;
+export const CATALOG_API_ERROR = 'shop#catalogApiError';
+export type CatalogApiError = Action & ApiError;
+
+export const catalogApiError = (err: string): CatalogApiError => ({
+   type: CATALOG_API_ERROR,
+   err
+});
+
+
+export type ShopActions = LoadCatalog | CatalogLoaded | CatalogApiError;

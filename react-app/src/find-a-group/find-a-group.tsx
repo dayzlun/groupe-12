@@ -15,7 +15,7 @@ import {AppState} from '../state/store';
 import {useSelector, useDispatch} from 'react-redux';
 import {HikerGroupState} from './reducer';
 import {HikerGroup} from '../models/hiker-group';
-import {LoadingPaperSkeleton} from '../common-components';
+import {LoadingPaperSkeleton, ErrorPaper} from '../common-components';
 import {loadHikerGroups} from './actions';
 import ReRollIcon from '@material-ui/icons/Casino';
 
@@ -47,7 +47,7 @@ const HikerGroup: React.FC<{group: HikerGroup}> = ({group}) => {
 
 export const FindAGroup: React.FC = () => {
   const classes = useStyles();
-  const {groups, loading} = useSelector<AppState, HikerGroupState>(state => state.hikerGroup);
+  const {groups, loading, err} = useSelector<AppState, HikerGroupState>(state => state.hikerGroup);
   const dispatch = useDispatch();
   // Load groups when component is mounting only.
   React.useEffect(() => {
@@ -72,6 +72,8 @@ export const FindAGroup: React.FC = () => {
           <Grid item xs={12}>
             <LoadingPaperSkeleton />
           </Grid>
+        ) : err ? (
+          <ErrorPaper err={err} />
         ) : (
           groups.map((group, i) => (
             <Grid item xs={12} key={i}>

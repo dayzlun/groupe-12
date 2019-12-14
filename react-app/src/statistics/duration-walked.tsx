@@ -7,7 +7,7 @@ import {DurationWalked} from '../models/statistics';
 import {useSelector, useDispatch} from 'react-redux';
 import {AppState} from '../state/store';
 import {StatisticsState} from './reducer';
-import {LoadingPaperSkeleton} from '../common-components';
+import {LoadingPaperSkeleton, ErrorPaper} from '../common-components';
 import {loadUserDurationWalked} from './actions';
 import {AwardIconMap} from './helper';
 
@@ -34,7 +34,7 @@ export const DurationWalkedSince: React.FC<{walked: DurationWalked}> = ({walked}
       </Typography>
     </Grid>
     <Grid item xs={8}>
-      <Typography variant="body1" component="p" align='center'>
+      <Typography variant="body1" component="p" align="center">
         You've walked {walked.duration} hours
       </Typography>
     </Grid>
@@ -44,9 +44,10 @@ export const DurationWalkedSince: React.FC<{walked: DurationWalked}> = ({walked}
 export const DurationWalkedByUser: React.FC<{userid: string}> = ({userid}) => {
   const classes = useStyles();
   const [selectedTab, setSelectedTab] = React.useState(0);
-  const {userDurationWalked, loadingDuration} = useSelector<AppState, StatisticsState>(
-    state => state.statistics
-  );
+  const {userDurationWalked, loadingDuration, durationApiError} = useSelector<
+    AppState,
+    StatisticsState
+  >(state => state.statistics);
   const dispatch = useDispatch();
   // Loading stats when component is mounting only
   React.useEffect(() => {
@@ -73,6 +74,8 @@ export const DurationWalkedByUser: React.FC<{userid: string}> = ({userid}) => {
   }
   return loadingDuration ? (
     <LoadingPaperSkeleton />
+  ) : durationApiError || !userDurationWalked ? (
+    <ErrorPaper err={durationApiError || 'Unkown'} />
   ) : (
     <Paper className={classes.paper}>
       <Grid container spacing={3}>

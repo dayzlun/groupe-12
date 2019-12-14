@@ -1,44 +1,58 @@
+import * as Postgres from 'pg';
 // JSON Schema that validates Hiking JSON payloads
 // see: https://github.com/tdegrunt/jsonschema
 // for some schema examples.
 export const HikingJSONSchema = {
   type: 'object',
   properties: {
-    name: {type: 'string'}
+    hikeid: {type: 'string'},
+    name: {type: 'string'},
+    elevationGain: {type: 'string'},
+    coord: {
+      type: 'object',
+      properties: {
+        lat: {type: 'number'},
+        lon: {type: 'number'}
+      }
+    }
   },
-  required: ['name'],
+  required: ['name', 'elevationGain', 'hikeid'],
   additionalProperties: false
 };
-
-export type Hiking = {
-  // TODO DEFINE ME!!!!
+export type Hike = {
+  hikeid: string;
   name: string;
+  elevationGain: string;
+  coord: LocationCoordinates;
 };
 
-export namespace VolatileDB {
-  const hikings: Hiking[] = [];
+export type LocationCoordinates = {
+  lat: number;
+  lon: number;
+};
 
-  /**
-   * Persist (in memory) the given hiking
-   * @param hiking the hiking to be persisted
-   * @returns the hiking that has been saved
-   *
-   */
-  export const saveHiking = (hiking: Hiking): Hiking => {
-    hikings.push(hiking);
-    return hiking;
+export namespace RelationalDB {
+  export const getClient = (): Postgres.Client => {
+    return new Postgres.Client({
+        user: 'sigl2020',
+        host: 'localhost',
+        database: 'hikedb',
+        password: 'sigl2020',
+        port: 5432
+      });
   };
 
   /**
-   * Return all hikings
+   * Return hikings for area
    */
-  export const getAllHikings = () => hikings;
-
-  /**
-   * Find the hinking matching the `name` in parameter
-   * @param name
-   * @returns the hinking if found, `undefined` otherwise.
-   */
-  export const getHikingByName = (name: string): Hiking | undefined =>
-    hikings.find(hiking => hiking.name === name);
+  export const getHikingsForArea = async (areaid: string) => {
+    const cli = getClient();
+    cli.connect();
+    const res = await cli.query(`
+      SELECT * FROM public.hikes
+      ORDER BY hikeid ASC LIMIT 10
+    `);
+    cli.end();
+    return res.rows;
+  };
 }

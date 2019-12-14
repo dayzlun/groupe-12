@@ -1,12 +1,20 @@
-import {delay} from './common';
+import {delay, tryFetch} from './common';
 import {Observable, from} from 'rxjs';
 import {HikerGroup} from '../models/hiker-group';
 import {mockedHikerGroups} from '../find-a-group/reducer';
 
-export const fetchHikerGroupsObservable = (): Observable<{groups: HikerGroup[]}> => {
-  const fetchHikerGroups = async () => {
-    await delay(3000);
-    return {groups: mockedHikerGroups};
-  };
-  return from(fetchHikerGroups());
+const fetchGroups = async (userid: string) => {
+  let groups: HikerGroup[] = [];
+  const {res, err} = await tryFetch<HikerGroup[]>(
+    'Hikers Groups API',
+    `https://hikers.arla-sigl.fr/v1/groups?userid=${userid}`
+  );
+  if (res) {
+    groups = res;
+  }
+  return {groups, err};
+};
+
+export const fetchHikerGroupsObservable = (userid: string): Observable<{groups: HikerGroup[], err?: string}> => {
+  return from(fetchGroups(userid));
 };

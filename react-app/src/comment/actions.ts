@@ -1,5 +1,6 @@
 import {Action} from 'redux';
 import {Comment} from '../models/comments';
+import { ApiError } from '../state/store';
 
 export const LOAD_HIKE_COMMENTS = 'comment#loadHikeComments';
 export type LoadHikeComments = Action & {
@@ -28,4 +29,13 @@ export const addCommentToHike = (hikeid: string): AddCommentToHike => ({
   hikeid
 });
 
-export type CommentActions = LoadHikeComments | HikeCommentsLoaded | AddCommentToHike;
+export const COMMENTS_API_ERROR = 'comment#commentsApiError';
+export type CommentsApiError = Action & ApiError;
+
+export const commentsApiError = (err: string): CommentsApiError => ({
+   type: COMMENTS_API_ERROR,
+   err
+});
+
+
+export type CommentActions = LoadHikeComments | HikeCommentsLoaded | AddCommentToHike | CommentsApiError;

@@ -1,8 +1,15 @@
 import {Reducer} from 'redux';
 import {AnyActions} from '../actions';
 import {Hike} from '../models/hike';
-import {HikesLoadedAction, HIKES_LOADED_ACTION, LOAD_HIKES_ACTION} from './actions';
-import { map } from 'rxjs/operators';
+import {
+  HikesLoadedAction,
+  HIKES_LOADED_ACTION,
+  LOAD_HIKES_ACTION,
+  HIKE_API_ERROR,
+  HikeApiError
+} from './actions';
+import {map} from 'rxjs/operators';
+import {ApiErrorState} from '../state/store';
 
 export const mockedHikes: Hike[] = [
   {
@@ -25,7 +32,7 @@ export const mockedHikes: Hike[] = [
   }
 ];
 
-export type HikeState = {
+export type HikeState = ApiErrorState & {
   hikes: Hike[];
   loading: boolean;
 };
@@ -51,7 +58,15 @@ export const hikeReducer: Reducer<HikeState, AnyActions> = (
       const hikes = (action as HikesLoadedAction).hikes;
       return {
         ...hikeState,
+        err: undefined,
         hikes,
+        loading: false
+      };
+    case HIKE_API_ERROR:
+      const apiError = (action as HikeApiError).err;
+      return {
+        ...hikeState,
+        err: apiError,
         loading: false
       };
     default:

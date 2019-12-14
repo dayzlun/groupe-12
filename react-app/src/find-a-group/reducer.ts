@@ -1,10 +1,11 @@
 import {HikerGroup} from '../models/hiker-group';
 import {AnyActions} from '../actions';
 import {Reducer} from 'redux';
-import {LOAD_HIKER_GROUPS, HIKER_GROUPS_LOADED, HikerGroupsLoaded} from './actions';
+import {LOAD_HIKER_GROUPS, HIKER_GROUPS_LOADED, HikerGroupsLoaded, HikerGroupApiError, HIKER_GROUP_API_ERROR} from './actions';
 import { testUser } from '../api/common';
+import { ApiErrorState } from '../state/store';
 
-export type HikerGroupState = {
+export type HikerGroupState = ApiErrorState & {
   groups: HikerGroup[];
   loading: boolean;
 };
@@ -38,6 +39,12 @@ export const hikerGroupReducer: Reducer<HikerGroupState, AnyActions> = (
         groups: (action as HikerGroupsLoaded).groups,
         loading: false
       };
+    case HIKER_GROUP_API_ERROR:
+      return {
+        ...hikerGroupState,
+        loading: false,
+        err: (action as HikerGroupApiError).err
+      }
     default:
       return hikerGroupState;
   }

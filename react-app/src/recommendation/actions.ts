@@ -1,5 +1,6 @@
 import {Action} from 'redux';
 import {Hike} from '../models/hike';
+import {ApiError} from '../state/store';
 
 export const LOAD_RECOMMENDED_HIKES = 'recommendation#loadRecommendedHikes';
 export type LoadRecommendedHikes = Action & {
@@ -19,4 +20,14 @@ export const recommendedHikesLoaded = (hikes: Hike[]): RecommendedHikesLoaded =>
   hikes
 });
 
-export type RecommendationActions = LoadRecommendedHikes | RecommendedHikesLoaded;
+export const RECOMMENDATION_API_ERROR = 'recommendation#recommendationApiError';
+export type RecommendationApiError = Action & ApiError;
+export const recommendationApiError = (err: string): RecommendationApiError => ({
+  type: RECOMMENDATION_API_ERROR,
+  err
+});
+
+export type RecommendationActions =
+  | LoadRecommendedHikes
+  | RecommendedHikesLoaded
+  | RecommendationApiError;
