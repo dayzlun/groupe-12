@@ -2,7 +2,7 @@ import {default as express, Request, Response} from 'express';
 import cors from 'cors';
 import {json} from 'body-parser';
 import * as jsonschema from 'jsonschema';
-import {VolatileDB, HikingJSONSchema} from './db';
+import {RelationalDB, HikingJSONSchema} from './db';
 
 // Configure the server with port
 const app = express();
@@ -17,8 +17,14 @@ app.use(json());
 
 // Simple route that returns a hello. This is consume to make sure our API endpoint
 // is responding (healthcheck)
-app.get('/', (_: Request, res: Response) => {
-  res.send('Hello !');
+app.get('/v1/hikes', async (req: Request, res: Response) => {
+  const areaid = req.query.areaid;
+  if (areaid) {
+    const hikings = await RelationalDB.getHikingsForArea(areaid);
+    res.send(hikings)
+  } else {
+    res.send([])
+  }
 });
 
 // Add a new hiking to the volatile database
