@@ -17,7 +17,8 @@ jobs:
        docker login docker.pkg.github.com -u ${{ secrets.DOCKER_USER }} -p ${{ secrets.DOCKER_TOKEN }}
        docker push $PARLA_REACT_IMAGE
     - name: Build hike API
-      source variables.env
+      run: |
+       source variables.env
        docker build -t $HIKE_API_IMAGE api/
        docker login docker.pkg.github.com -u ${{ secrets.DOCKER_USER }} -p ${{ secrets.DOCKER_TOKEN }}
        docker push $HIKE_API_IMAGE
